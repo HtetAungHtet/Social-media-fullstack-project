@@ -1,2 +1,18 @@
 # Social-media-fullstack-project
-Building social medias application like facebook by myself.
+Building a social media application: 
+Create , Save , Like , Share , Comment on post 
+Create reels 
+Update user profile  
+Follow and Unfollow user 
+Real time message 
+Video / voice calling 
+
+Front-End Developement:
+  React , Redux , Tailwind Css , Mui
+
+Back-End Developement:
+  Spring boot
+
+Database:
+  MySQL
+
