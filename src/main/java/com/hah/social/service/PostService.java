@@ -8,15 +8,15 @@ public interface PostService {
 
     List<Post> findAllPosts();
 
-    Post findPostById(Long postId);
+    Post findPostById(Long postId) throws Exception;
 
     List<Post> findPostByUserId(Long userId);
 
-    Post createPost(Post post, Long userId);
+    Post createNewPost(Post post, Long userId) throws Exception;
 
-    Post savePost(Long postId, Long userId);
+    Post savePost(Long postId, Long userId) throws Exception;
 
-    Post likePost(Long postId, Long userId);
+    Post likePost(Long postId, Long userId) throws Exception;
 
-    String deletePost(Long postId, Long userId);
+    String deletePost(Long postId, Long userId) throws Exception;
 }

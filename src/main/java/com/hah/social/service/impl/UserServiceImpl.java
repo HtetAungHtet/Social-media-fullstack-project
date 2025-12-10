@@ -75,11 +75,11 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
         user.setFollowers(userDto.getFollowers());
-        user.setFollowers(userDto.getFollowings());
+        user.setFollowings(userDto.getFollowings());
         user.setGender(userDto.getGender());
-        user.setCreatedAt(userDto.getCreatedAt());
-        user.setUpdatedAt(userDto.getUpdatedAt());
-        user.setPosts(userDto.getPosts());
+//        user.setCreatedAt(userDto.getCreatedAt());
+//        user.setUpdatedAt(userDto.getUpdatedAt());
+        user.setSavedPost(userDto.getPosts());
 
         User updatedUser = userRepository.save(user);
         return userMapper.toDto(updatedUser);

@@ -2,7 +2,6 @@ package com.hah.social.controller;
 
 import com.hah.social.error.ApiErrorResponse;
 import com.hah.social.model.dto.UserDto;
-import com.hah.social.model.entity.User;
 import com.hah.social.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

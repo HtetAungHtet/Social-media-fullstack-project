@@ -26,7 +26,7 @@ public class UserDto {
 
     private String gender;
 
-    private List<Post> posts = new ArrayList<>();
+    private List<Post> savedPost = new ArrayList<>();
 
     private LocalDateTime createdAt;
 

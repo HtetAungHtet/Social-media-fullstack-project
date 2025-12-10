@@ -26,7 +26,7 @@ public class User extends BaseEntity{
     private List<Long> followings = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Post> posts = new ArrayList<>();
+    private List<Post> savedPost = new ArrayList<>();
 
     private String gender;
 }
