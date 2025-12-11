@@ -1,9 +1,7 @@
 package com.hah.social.model.entity;
 
-import com.hah.social.model.dto.UserDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,9 +20,11 @@ public class Post extends BaseEntity{
 
     private String video;
 
-    private List<UserDto> liked = new ArrayList<>();
+    @OneToMany
+    private List<User> liked = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
 }

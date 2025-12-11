@@ -58,11 +58,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto registerUser(UserDto userDto) {
-        User user = userMapper.toEntity(userDto);
-        User savedUser = this.userRepository.save(user);
+//        User user = userMapper.toEntity(userDto);
+//        User savedUser = this.userRepository.save(user);
+//
+//        userDto = userMapper.toDto(savedUser);
+//        return userDto;
 
-        userDto = userMapper.toDto(savedUser);
-        return userDto;
+        User user = new User();
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        user.setFollowers(userDto.getFollowers());
+        user.setFollowings(userDto.getFollowings());
+        user.setGender(userDto.getGender());
+        user.setSavedPost(userDto.getSavedPost());
+
+        User savedUser = userRepository.save(user);
+        return userMapper.toDto(savedUser);
     }
 
     @Override
@@ -77,9 +90,7 @@ public class UserServiceImpl implements UserService {
         user.setFollowers(userDto.getFollowers());
         user.setFollowings(userDto.getFollowings());
         user.setGender(userDto.getGender());
-//        user.setCreatedAt(userDto.getCreatedAt());
-//        user.setUpdatedAt(userDto.getUpdatedAt());
-        user.setSavedPost(userDto.getPosts());
+        user.setSavedPost(userDto.getSavedPost());
 
         User updatedUser = userRepository.save(user);
         return userMapper.toDto(updatedUser);
