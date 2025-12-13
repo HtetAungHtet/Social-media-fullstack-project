@@ -1,8 +1,6 @@
 package com.hah.social.service.impl;
 
-import com.hah.social.mapper.UserMapper;
 import com.hah.social.error.UserNotFoundException;
-import com.hah.social.model.dto.UserDto;
 import com.hah.social.model.entity.User;
 import com.hah.social.repository.UserRepository;
 import com.hah.social.service.UserService;
@@ -10,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,36 +17,19 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final UserMapper userMapper;
-
     @Override
-    public List<UserDto> findAllUsers() {
-        List<User> userList = this.userRepository.findAll();
-        return userEntityToUserDto(userList);
-    }
-
-    /* User Entity To User DTO shortcut */
-    private List<UserDto> userEntityToUserDto(List<User> userList) {
-        List<UserDto> usersDto = new ArrayList<>();
-
-        for (User user : userList)
-        {
-            UserDto userDto = userMapper.toDto(user);
-            usersDto.add(userDto);
-        }
-
-        return usersDto;
+    public List<User> findAllUsers() {
+        return this.userRepository.findAll();
     }
 
     @Override
-    public Optional<UserDto> findUserById(Long id) {
+    public Optional<User> findUserById(Long id) {
 
         Optional<User> result = this.userRepository.findById(id);
 
         if (result.isPresent()) {
             User user = result.get();
-            UserDto userDto = userMapper.toDto(user);
-            return Optional.of(userDto);
+            return Optional.of(user);
         }
         else {
             return Optional.empty();
@@ -57,62 +37,55 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto registerUser(UserDto userDto) {
-//        User user = userMapper.toEntity(userDto);
-//        User savedUser = this.userRepository.save(user);
-//
-//        userDto = userMapper.toDto(savedUser);
-//        return userDto;
+    public User registerUser(User user) {
 
-        User user = new User();
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setFollowers(userDto.getFollowers());
-        user.setFollowings(userDto.getFollowings());
-        user.setGender(userDto.getGender());
-        user.setSavedPost(userDto.getSavedPost());
+        User newUser = new User();
+        newUser.setFirstName(user.getFirstName());
+        newUser.setLastName(user.getLastName());
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(user.getPassword());
+        newUser.setFollowers(user.getFollowers());
+        newUser.setFollowings(user.getFollowings());
+        newUser.setGender(user.getGender());
+        newUser.setSavedPost(user.getSavedPost());
 
-        User savedUser = userRepository.save(user);
-        return userMapper.toDto(savedUser);
+        return userRepository.save(user);
     }
 
     @Override
-    public UserDto updateUserDetails(UserDto userDto, Long id) {
-        User user = userRepository.findById(id)
+    public User updateUserDetails(User user, Long id) {
+        userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
 
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setFollowers(userDto.getFollowers());
-        user.setFollowings(userDto.getFollowings());
-        user.setGender(userDto.getGender());
-        user.setSavedPost(userDto.getSavedPost());
+        User newUser = new User();
+        newUser.setFirstName(user.getFirstName());
+        newUser.setLastName(user.getLastName());
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(user.getPassword());
+        newUser.setFollowers(user.getFollowers());
+        newUser.setFollowings(user.getFollowings());
+        newUser.setGender(user.getGender());
+        newUser.setSavedPost(user.getSavedPost());
 
-        User updatedUser = userRepository.save(user);
-        return userMapper.toDto(updatedUser);
+        return userRepository.save(user);
     }
 
 
     @Override
-    public UserDto findUserByEmail(String email) {
+    public User findUserByEmail(String email) {
 
         if (email == null || email.isBlank()) {
             throw new IllegalArgumentException("Email must not be invalid or blank!");
         }
 
-        User user = userRepository.findByEmail(email)
+        return userRepository.findByEmail(email)
                 .orElseThrow(()->new UserNotFoundException(email));
 
-        return userMapper.toDto(user);
     }
 
     @Override
     @Transactional
-    public UserDto followUser(Long userId1, Long userId2) {
+    public User followUser(Long userId1, Long userId2) {
 
         User user1 = userRepository.findById(userId1)
                 .orElseThrow(() -> new UserNotFoundException(userId1));
@@ -126,16 +99,12 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user1);
         userRepository.save(user2);
 
-        return userMapper.toDto(user1); // or user2
+        return user1;
     }
 
     @Override
-    public List<UserDto> searchUser(String query) {
-        List<User> users = userRepository.searchUser(query);
-        return users.stream()
-                .map(userMapper::toDto)
-                .toList();
-
+    public List<User> searchUser(String query) {
+        return  userRepository.searchUser(query);
     }
 
     @Override

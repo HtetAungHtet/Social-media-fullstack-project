@@ -1,7 +1,7 @@
 package com.hah.social.controller;
 
 import com.hah.social.error.ApiErrorResponse;
-import com.hah.social.model.dto.UserDto;
+import com.hah.social.model.entity.User;
 import com.hah.social.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +21,13 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public List<UserDto> getAllUsers() {
+    public List<User> getAllUsers() {
         return this.userService.findAllUsers();
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<Object> getUserById(@PathVariable Long userId) {
-         Optional<UserDto> result = this.userService.findUserById(userId);
+         Optional<User> result = this.userService.findUserById(userId);
 
          if (result.isPresent())
          {
@@ -42,19 +42,19 @@ public class UserController {
     }
 
     @GetMapping("/email")
-    public ResponseEntity<UserDto> getUserByEmail(@RequestParam String email) {
-        UserDto userDto = userService.findUserByEmail(email);
-        return ResponseEntity.ok(userDto);
+    public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
+        User user = userService.findUserByEmail(email);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/search")
-    public List<UserDto> searchUser(@RequestParam String query) {
+    public List<User> searchUser(@RequestParam String query) {
         return userService.searchUser(query);
     }
 
 
     @PostMapping
-    public ResponseEntity<Object> registerUser(@RequestBody @Valid UserDto userDto,
+    public ResponseEntity<Object> registerUser(@RequestBody @Valid User user,
                                                BindingResult result) {
 
         if (result.hasErrors())
@@ -64,14 +64,14 @@ public class UserController {
         }
         else
         {
-            UserDto registerUser = this.userService.registerUser(userDto);
+            User registerUser = this.userService.registerUser(user);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(registerUser);
         }
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<Object> updateUser(@RequestBody @Valid UserDto userDto,
+    public ResponseEntity<Object> updateUser(@RequestBody @Valid User user,
                                              @PathVariable Long userId,
                                                BindingResult result) {
 
@@ -79,13 +79,13 @@ public class UserController {
             return ResponseEntity.badRequest()
                     .body(result.getAllErrors());
         } else {
-            UserDto updatedUser = this.userService.updateUserDetails(userDto, userId);
+            User updatedUser = this.userService.updateUserDetails(user, userId);
             return ResponseEntity.ok(updatedUser);
         }
     }
 
     @PutMapping("/follow/{userId1}/{userId2}")
-    public UserDto followUserHandler(@PathVariable Long userId1,
+    public User followUserHandler(@PathVariable Long userId1,
                                      @PathVariable Long userId2) {
         return userService.followUser(userId1, userId2);
     }

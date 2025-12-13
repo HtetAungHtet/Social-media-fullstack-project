@@ -1,4 +1,4 @@
-package com.hah.social.error;
+package com.hah.social.config.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiResponse {
-    String message;
-    boolean status;
+public class LoginRequest {
+    private String email;
+    private String password;
 }

@@ -1,6 +1,6 @@
 package com.hah.social.controller;
 
-import com.hah.social.error.ApiResponse;
+import com.hah.social.response.ApiResponse;
 import com.hah.social.model.entity.Post;
 import com.hah.social.service.PostService;
 import lombok.RequiredArgsConstructor;

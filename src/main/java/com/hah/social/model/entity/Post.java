@@ -1,13 +1,12 @@
 package com.hah.social.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -20,9 +19,11 @@ public class Post extends BaseEntity{
 
     private String video;
 
+    @JsonIgnore
     @OneToMany
     private List<User> liked = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
